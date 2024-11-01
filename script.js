@@ -1,8 +1,4 @@
 // Firebaseの初期化
-import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore"; 
-
-// Firebaseの設定（取得した設定内容を貼り付けます）
 const firebaseConfig = {
     apiKey: "AIzaSyBekPnTQGqxZmIaFldNlbjrPWKb3_5MrBk",
     authDomain: "pasu-5c3c6.firebaseapp.com",
@@ -14,8 +10,8 @@ const firebaseConfig = {
 };
 
 // FirebaseとFirestoreの初期化
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 // キャラクタ頻度を記憶するオブジェクト
 let characterFrequency = {};
@@ -53,10 +49,10 @@ function analyzePassword(password) {
 // Firestoreに頻度データを保存・更新する関数
 async function updateDatabase() {
     try {
-        const charFreqRef = doc(db, "passwordStats", "characterFrequency");
+        const charFreqRef = db.collection("passwordStats").doc("characterFrequency");
 
         // データを保存、または既存データがあれば更新
-        await setDoc(charFreqRef, characterFrequency, { merge: true });
+        await charFreqRef.set(characterFrequency, { merge: true });
         console.log("データベースに保存しました");
     } catch (error) {
         console.error("データベース更新エラー:", error);
@@ -65,10 +61,10 @@ async function updateDatabase() {
 
 // Firestoreからデータを取得し、characterFrequencyに読み込む
 async function loadCharacterFrequency() {
-    const charFreqRef = doc(db, "passwordStats", "characterFrequency");
-    const docSnap = await getDoc(charFreqRef);
+    const charFreqRef = db.collection("passwordStats").doc("characterFrequency");
+    const docSnap = await charFreqRef.get();
 
-    if (docSnap.exists()) {
+    if (docSnap.exists) {
         characterFrequency = docSnap.data();
         console.log("データベースからロードしました:", characterFrequency);
     } else {
@@ -162,6 +158,10 @@ function displayStatistics() {
                     beginAtZero: true
                 }
             }
+        }
+    });
+}
+
         }
     });
 }

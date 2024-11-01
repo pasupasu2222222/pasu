@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パスワード強度チェッカー</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <form>
+        <h1>パスワード強度チェッカー</h1>
+        <label for="password">パスワード：</label>
+        <input type="text" id="password">
+        <button type="button" onclick="checkPasswordStrength()">チェック</button>
+        <div id="strength-indicator">パスワード強度: <span id="strength-text"></span></div>
+        <div id="reason"></div>
+    </form>
+    <div id="chartContainer">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

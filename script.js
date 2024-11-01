@@ -1,17 +1,5 @@
-// Firebaseの初期化
-const firebaseConfig = {
-    apiKey: "AIzaSyBekPnTQGqxZmIaFldNlbjrPWKb3_5MrBk",
-    authDomain: "pasu-5c3c6.firebaseapp.com",
-    projectId: "pasu-5c3c6",
-    storageBucket: "pasu-5c3c6.firebasestorage.app",
-    messagingSenderId: "465286810890",
-    appId: "1:465286810890:web:71c3bf5b0d85d2245ffef3",
-    measurementId: "G-5XXLK6SX2Y"
-};
-
-// FirebaseとFirestoreの初期化
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// Firestoreの初期化
+// const db = firebase.firestore(); // 一時的に無効化
 
 // キャラクタ頻度を記憶するオブジェクト
 let characterFrequency = {};
@@ -32,7 +20,7 @@ function checkPasswordStrength() {
 
     analyzePassword(password);
     displayStatistics();
-    updateDatabase();
+    // updateDatabase(); // 一時的に無効化
 }
 
 // パスワードのアルファベットと数字を解析し頻度を更新
@@ -46,34 +34,10 @@ function analyzePassword(password) {
     }
 }
 
-// Firestoreに頻度データを保存・更新する関数
-async function updateDatabase() {
-    try {
-        const charFreqRef = db.collection("passwordStats").doc("characterFrequency");
+// Firestoreに関するコードを無効化したため、updateDatabase関数を省略
 
-        // データを保存、または既存データがあれば更新
-        await charFreqRef.set(characterFrequency, { merge: true });
-        console.log("データベースに保存しました");
-    } catch (error) {
-        console.error("データベース更新エラー:", error);
-    }
-}
-
-// Firestoreからデータを取得し、characterFrequencyに読み込む
-async function loadCharacterFrequency() {
-    const charFreqRef = db.collection("passwordStats").doc("characterFrequency");
-    const docSnap = await charFreqRef.get();
-
-    if (docSnap.exists) {
-        characterFrequency = docSnap.data();
-        console.log("データベースからロードしました:", characterFrequency);
-    } else {
-        console.log("データが見つかりません");
-    }
-}
-
-// ページ読み込み時にデータを取得
-window.onload = loadCharacterFrequency;
+// ページ読み込み時にデータを取得も無効化
+// window.onload = loadCharacterFrequency;
 
 // パスワード強度計算関数
 function calculatePasswordStrength(password) {
@@ -158,10 +122,6 @@ function displayStatistics() {
                     beginAtZero: true
                 }
             }
-        }
-    });
-}
-
         }
     });
 }
